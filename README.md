@@ -1,8 +1,11 @@
 
 # FAN-SPEED-CONTROLLER-SYSTEM-USING-TEMPERATURE-SENSOR
-## EXP 1(A) FAN SPEED CONTROLLER SYSTEM USING TEMPERATURE SENSOR
+# EXP 1(A) FAN SPEED CONTROLLER SYSTEM USING TEMPERATURE SENSOR
 
-### Aim:
+### Name: PRADEEP N
+### Reg No: 212223060201
+
+# Aim:
 	To measure the Temperature using DHT11/DHT22/TMP36  sensor with Arduino UNO Board/ESP-32 using Tinker CAD.
 
 # Hardware / Software Tools required:
@@ -12,10 +15,10 @@
 	Temperature Sensor (DHT11/DHT22/TMP36)
 
 # Circuit Diagram:
+![WhatsApp Image 2025-10-28 at 18 05 16_12e3474c](https://github.com/user-attachments/assets/74febc99-28d9-4b55-b39e-8ac189549ee7)
 
 ---
-To upload
---
+
 
 # Procedure // Modify the procedure based on your circuit
 
@@ -56,13 +59,59 @@ Step 7: Save Your Work
 
 
 # Program
+```
+// Define analog input pins
+const int tempSensorPin = A0;
+const int humiditySensorPin = A1;
 
----
-To upload
---
+// Define variables
+int tempRawValue = 0;
+int humidityRawValue = 0;
+double voltage = 0;
+double tempC = 0;
+double tempF = 0;
+
+void setup() {
+  Serial.begin(9600);     // Initialize serial communication
+  pinMode(tempSensorPin, INPUT);
+  pinMode(humiditySensorPin, INPUT);
+}
+
+void loop() {
+  // Read temperature sensor value
+  tempRawValue = analogRead(tempSensorPin);
+  voltage = (tempRawValue / 1023.0) * 5000; // Convert to millivolts
+  tempC = (voltage - 500) * 0.1;            // LM35-like formula
+  tempF = (tempC * 1.8) + 32;               // Convert °C to °F
+
+  // Print temperature data
+  Serial.print("Raw Value = ");
+  Serial.print(tempRawValue);
+  Serial.print("\t MilliVolts = ");
+  Serial.print(voltage, 0);
+  Serial.print("\t Temperature (°C) = ");
+  Serial.print(tempC, 1);
+  Serial.print("\t Temperature (°F) = ");
+  Serial.println(tempF, 1);
+
+  // Read humidity sensor value
+  humidityRawValue = analogRead(humiditySensorPin);
+
+  // Map analog value (0–1023) to humidity percentage (10–70%)
+  int humidityPercent = map(humidityRawValue, 0, 1023, 10, 70);
+
+  // Print humidity data
+  Serial.print("Humidity: ");
+  Serial.print(humidityPercent);
+  Serial.println("%");
+
+  // Wait 5 seconds before next reading
+  delay(5000);
+}
+```
+# Output
+![WhatsApp Image 2025-10-28 at 18 05 27_1ecef56c](https://github.com/user-attachments/assets/787db476-26fb-4ee9-833e-4158a9ef48ad)
+
 
 # Result
-
----
-To upload
---
+The temperature and humidity values are measured using DHT11/DHT22/TMP36 sensor with Arduino UNO Board/ESP-32 and Simulated using Tinker CAD.
