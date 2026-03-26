@@ -1,11 +1,8 @@
 
 # FAN-SPEED-CONTROLLER-SYSTEM-USING-TEMPERATURE-SENSOR
-# EXP 1(A) FAN SPEED CONTROLLER SYSTEM USING TEMPERATURE SENSOR
+## EXP 1(A) FAN SPEED CONTROLLER SYSTEM USING TEMPERATURE SENSOR
 
-### Name: PRADEEP N
-### Reg No: 212223060201
-
-# Aim:
+### Aim:
 	To measure the Temperature using DHT11/DHT22/TMP36  sensor with Arduino UNO Board/ESP-32 using Tinker CAD.
 
 # Hardware / Software Tools required:
@@ -15,9 +12,8 @@
 	Temperature Sensor (DHT11/DHT22/TMP36)
 
 # Circuit Diagram:
-![WhatsApp Image 2025-10-28 at 18 05 16_12e3474c](https://github.com/user-attachments/assets/74febc99-28d9-4b55-b39e-8ac189549ee7)
 
----
+<img width="393" height="211" alt="image" src="https://github.com/user-attachments/assets/86e010ed-9096-4eef-88ff-0ae10d5471fc" />
 
 
 # Procedure // Modify the procedure based on your circuit
@@ -60,58 +56,40 @@ Step 7: Save Your Work
 
 # Program
 ```
-// Define analog input pins
-const int tempSensorPin = A0;
-const int humiditySensorPin = A1;
-
-// Define variables
-int tempRawValue = 0;
-int humidityRawValue = 0;
-double voltage = 0;
+const int analogIn = A0;
+int humiditysensorOutput = 0;
+// Defining Variables
+int RawValue= 0;
+double Voltage = 0;
 double tempC = 0;
 double tempF = 0;
-
-void setup() {
-  Serial.begin(9600);     // Initialize serial communication
-  pinMode(tempSensorPin, INPUT);
-  pinMode(humiditySensorPin, INPUT);
+void setup(){  
+  Serial.begin(9600);
+  pinMode(A1, INPUT);
 }
-
-void loop() {
-  // Read temperature sensor value
-  tempRawValue = analogRead(tempSensorPin);
-  voltage = (tempRawValue / 1023.0) * 5000; // Convert to millivolts
-  tempC = (voltage - 500) * 0.1;            // LM35-like formula
-  tempF = (tempC * 1.8) + 32;               // Convert °C to °F
-
-  // Print temperature data
-  Serial.print("Raw Value = ");
-  Serial.print(tempRawValue);
-  Serial.print("\t MilliVolts = ");
-  Serial.print(voltage, 0);
-  Serial.print("\t Temperature (°C) = ");
-  Serial.print(tempC, 1);
-  Serial.print("\t Temperature (°F) = ");
-  Serial.println(tempF, 1);
-
-  // Read humidity sensor value
-  humidityRawValue = analogRead(humiditySensorPin);
-
-  // Map analog value (0–1023) to humidity percentage (10–70%)
-  int humidityPercent = map(humidityRawValue, 0, 1023, 10, 70);
-
-  // Print humidity data
-  Serial.print("Humidity: ");
-  Serial.print(humidityPercent);
+void loop(){
+  RawValue = analogRead(analogIn);
+  Voltage = (RawValue / 1023.0) * 5000; // 5000 to get millivots.
+  tempC = (Voltage-500) * 0.1; // 500 is the offset
+  tempF = (tempC * 1.8) + 32; // convert to F  
+  Serial.print("Raw Value = " );                  
+  Serial.print(RawValue);      
+  Serial.print("\t milli volts = ");
+  Serial.print(Voltage,0); //
+  Serial.print("\t Temperature in C = ");
+  Serial.print(tempC,1);
+  Serial.print("\t Temperature in F = ");
+  Serial.println(tempF,1);
+  humiditysensorOutput = analogRead(A1);
+  Serial.print("Humidity: "); // Printing out Humidity Percentage
+  Serial.print(map(humiditysensorOutput, 0, 1023, 10, 70));
   Serial.println("%");
-
-  // Wait 5 seconds before next reading
-  delay(5000);
+  delay(5000);  //iterate every 5 seconds
 }
 ```
-# Output
-![WhatsApp Image 2025-10-28 at 18 05 27_1ecef56c](https://github.com/user-attachments/assets/787db476-26fb-4ee9-833e-4158a9ef48ad)
-
 
 # Result
+<img width="1919" height="999" alt="image" src="https://github.com/user-attachments/assets/c65844dc-a918-4fd1-9a4e-f8a8b28a6a17" />
+
+
 The temperature and humidity values are measured using DHT11/DHT22/TMP36 sensor with Arduino UNO Board/ESP-32 and Simulated using Tinker CAD.
